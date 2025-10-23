@@ -10,6 +10,9 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+const methodOverride = require('method-override');
+app.use(methodOverride('_method'));
+
 app.get('/', (req, res)=> {
     res.send('Hello Express!!');
 });

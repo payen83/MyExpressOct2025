@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="/css/contacts.css">
+        <link rel="stylesheet" href="/css/styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+        <title><%= title %></title>
+    </head>
+    <body>
+        <div class="header">
+            <h1><%= title %></h1>
+            <p><%= content %></p>
+        </div>
+        <div class="form-container">
+            <% if(error){ %>
+                <div class="error"><%= error %></div>
+            <% } %>
+            <form action="<% formAction %>" method="POST">
+                <%if (student) { %>
+                    <input type="hidden" name="_method" value="PUT">
+                <% } %>
+                <label for="name">Name: </label>
+                <input type="text" name="name" placeholder="Enter name" value="<%= student ? student.name:'' %>">
+                
+                <label for="student_no">Student No: </label>
+                <input type="text" name="student_no" placeholder="Enter student number" value="<%= student ? student.student_no:'' %>">
+                
+                <label for="email">Email: </label>
+                <input type="text" name="email" placeholder="e.g abc@mail.com" value="<%= student ? student.email:'' %>">
+                
+                <label for="phone">Phone No.: </label>
+                <input type="text" name="phone" placeholder="e.g 0192230203" value="<%= student ? student.phone:'' %>">
+
+                <div class="button-group">
+                    <button type="submit" class="save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i><%= student ? 'Update':'Save' %>
+                    </button>
+                    <a href="/students" class="back-button">
+                        <i class="fa-solid fa-arrow-left"></i> Back                      
+                    </a>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
