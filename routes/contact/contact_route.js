@@ -37,4 +37,23 @@ router.post('/add', (req, res) => {
     res.redirect('/contacts');
 });
 
+router.get('/:id', (req, res) => {
+    const contact = contacts.find(c => c.id == req.params.id);
+    if(!contact) return res.status(404).send('Contact not found');
+
+    res.render('contact/contact_details', {
+        title: 'Contact Details',
+        content: 'View your contact information',
+        contact
+    });
+});
+
+router.post('/delete/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const index = contacts.findIndex(c => c.id == id);
+    if(index < 0) return res.status(404).send('Contact id not found');
+    contacts.splice(index, 1);
+    res.redirect('/contacts');
+});
+
 module.exports = router;

@@ -10,8 +10,6 @@ app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-
-
 app.get('/', (req, res)=> {
     res.send('Hello Express!!');
 });
@@ -46,5 +44,7 @@ app.get('/posting/:id', (req, res)=>{
 const contactRoutes = require('./routes/contact/contact_route');
 app.use('/contacts', contactRoutes);
 
+const studentRoutes = require('./routes/students/student_route');
+app.use('/students', studentRoutes);
 
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}`));

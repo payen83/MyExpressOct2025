@@ -30,15 +30,21 @@
                         <td><%= contact.name %></td>
                         <td>
                             <div class="actions">
-                                <a href="#" class="btn btn-view" title="view">
+                                <a href="/contacts/<%= contact.id %>" class="btn btn-view" title="view">
                                     <i class="fa-solid fa-eye"></i>
                                 </a>
                                 <a href="#" class="btn btn-edit" title="Edit">
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
-                                <a href="#" class="btn btn-delete" title="Delete">
-                                    <i class="fa-solid fa-trash"></i>
-                                </a>
+                                
+                                <form action="/contacts/delete/<%= contact.id %>?_method=POST" 
+                                    method="POST" style="display: inline;">
+                                    <button type="submit" class="btn btn-delete" title="Delete" 
+                                        onclick="return confirm('Confirm delete?')">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                </form>
+                                
                             </div>
                         </td>
                     </tr>
