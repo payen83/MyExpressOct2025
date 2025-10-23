@@ -39,10 +39,11 @@ router.get('/update/:id', async (req,res)=>{
     }
 });
 
-router.post('/update/:id', async (req,res) => {
-    const { name, student_no, email, phone } = req.body;
-    if(!name || name.trim() == '') return renderFormPage(res, 'Name cannot be empty');
+function runValidation(res, name, student_no, email, phone){
+
+    if(!name || name.trim() == '') return renderFormPage(res, 'Name cannot be empty', );
     //student number must be a number
+
     if(!student_no || !/^\d+$/.test(student_no)) {
         return renderFormPage(res, 'Student no is required and must be in number format');
     }
@@ -52,6 +53,11 @@ router.post('/update/:id', async (req,res) => {
     if(!/^\d+$/.test(phone)) {
         return renderFormPage(res, 'Phone must be in number format');
     }
+}
+
+router.post('/update/:id', async (req,res) => {
+    const { name, student_no, email, phone } = req.body;
+    runValidation(res, name, student_no, email, phone);
     try{
         const [result] = await db.query(
             'UPDATE users SET name = ?, student_no = ?, email = ?, phone = ? WHERE id = ?',
@@ -65,23 +71,12 @@ router.post('/update/:id', async (req,res) => {
     }
 })
 
-
 router.get('/add', (req, res) => renderFormPage(res));
 
 router.post('/add', async(req, res) => {
     const { name, student_no, email, phone } = req.body;
-
-    if(!name || name.trim() == '') return renderFormPage(res, 'Name cannot be empty');
-    //student number must be a number
-    if(!student_no || !/^\d+$/.test(student_no)) {
-        return renderFormPage(res, 'Student no is required and must be in number format');
-    }
-    if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        return renderFormPage(res, 'Email no is required and must be in email format');
-    }
-    if(!/^\d+$/.test(phone)) {
-        return renderFormPage(res, 'Phone must be in number format');
-    }
+    
+    runValidation(res, name, student_no, email, phone);
 
     try{
         await db.query('INSERT INTO users(name, student_no, email, phone, type) VALUES(?,?,?,?,?)', 
