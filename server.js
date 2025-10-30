@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
 app.engine('ejs', require('ejs').__express);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -12,6 +13,17 @@ app.use(express.urlencoded({extended: true}));
 
 const methodOverride = require('method-override');
 app.use(methodOverride('_method'));
+
+const cors = require('cors');
+const corsOptions = {
+  origin: ['http://localhost:3000','https://mywebsite.com'], 
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+  credentials: true, 
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
+
 
 app.get('/', (req, res)=> {
     res.send('Hello Express!!');
@@ -49,5 +61,11 @@ app.use('/contacts', contactRoutes);
 
 const studentRoutes = require('./routes/students/student_route');
 app.use('/students', studentRoutes);
+
+const apiRoutes = require('./routes/api/studentapi_routes');
+app.use('/api/students', apiRoutes);
+
+const authRoutes = require('./routes/api/authapi_routes');
+app.use('/api/auth', authRoutes);
 
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}`));
