@@ -24,6 +24,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+// Display Images
+app.use(
+  "/api/files/images",
+  express.static(path.join(__dirname, "files/images"))
+);
+
+
 
 app.get('/', (req, res)=> {
     res.send('Hello Express!!');
@@ -67,5 +74,11 @@ app.use('/api/students', apiRoutes);
 
 const authRoutes = require('./routes/api/authapi_routes');
 app.use('/api/auth', authRoutes);
+
+
+// Report API Route
+const reportApiRoutes = require("./routes/api/report_api.routes");
+app.use("/api/reports", reportApiRoutes);
+
 
 app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}`));

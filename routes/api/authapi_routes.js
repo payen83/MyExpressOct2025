@@ -4,8 +4,10 @@ const db = require('../../database');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
+const upload = multer();
 
-router.post('/login', async (req, res)=>{
+router.post('/login', upload.none(), async (req, res)=>{
     const data = { ...req.body, ...req.query };
     const { email, password } = data;
     try {
@@ -36,6 +38,12 @@ router.post('/login', async (req, res)=>{
             success: true,
             message: 'Login successful',
             token,
+            user: {
+                id: admin.id,
+                name: admin.name,
+                email: admin.email,
+            },
+
         });
 
     } catch(err){
